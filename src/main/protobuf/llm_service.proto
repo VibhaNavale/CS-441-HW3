@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package textGen;
+
+message GenerateTextRequest {
+  string prompt = 1;
+  int32 max_length = 2;
+  float temperature = 3;
+  string model_id = 4;
+}
+
+message GenerateTextResponse {
+  string generated_text = 1;
+  float confidence = 2;
+  int32 tokens_used = 3;
+  string model_id = 4;
+  ResponseStatus status = 5;
+}
+
+message ResponseStatus {
+  enum StatusCode {
+    SUCCESS = 0;
+    ERROR = 1;
+  }
+  StatusCode code = 1;
+  string message = 2;
+}
