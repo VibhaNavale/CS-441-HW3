@@ -13,7 +13,7 @@ class TextGenerationService(config: Config)(implicit ec: ExecutionContext) {
   private val logger = LoggerFactory.getLogger(getClass)
 
   // Initialize Bedrock client
-  private val bedrockClient = BedrockRuntimeClient.builder()
+  protected val bedrockClient: BedrockRuntimeClient = BedrockRuntimeClient.builder()
     .region(software.amazon.awssdk.regions.Region.of(config.getString("bedrock.region")))
     .build()
 

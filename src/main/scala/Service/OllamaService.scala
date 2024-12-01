@@ -47,7 +47,7 @@ class OllamaService(config: com.typesafe.config.Config)(implicit system: ActorSy
   private val requestTimeoutSeconds = config.getInt("ollama.request-timeout-seconds")
   private val maxResponses = config.getInt("ollama.max-responses")
 
-  private val ollamaAPI = new OllamaAPI(host)
+  protected val ollamaAPI = new OllamaAPI(host)
   private var conversationHistory: List[Conversation] = List()
 
   private def selectTemplate(history: List[Conversation], lastResponse: String): String = {
