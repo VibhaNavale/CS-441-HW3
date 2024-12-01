@@ -27,10 +27,10 @@ FROM openjdk:17-slim AS runtime
 WORKDIR /app
 
 # Copy the compiled project from the build stage
-COPY --from=build /app/target/scala-2.13 /app/target/scala-2.13
+COPY --from=build /app/target/scala-2.12 /app/target/scala-2.12
 
 # Expose the port that the application will run on
 EXPOSE 8080
 
 # Command to run the application
-CMD ["java", "-cp", "/app/target/scala-2.13/*", "App.AkkaHttpServer"]
+CMD ["java", "-cp", "/app/target/scala-2.12/*", "App.AkkaHttpServer"]
