@@ -1,36 +1,51 @@
-# Stage 1: Build Stage
-FROM openjdk:17-slim AS build
+# Use an official OpenJDK runtime as a parent image
+FROM openjdk:11-jdk-slim AS builder
 
 # Set working directory
 WORKDIR /app
 
-# Copy the project files into the container
-COPY . /app
+# Install SBT
+RUN \
+  apt-get update && \
+  apt-get install -y curl && \
+  curl -L -o sbt-1.5.5.deb https://repo.scala-sbt.org/scalasbt/debian/sbt-1.5.5.deb && \
+  dpkg -i sbt-1.5.5.deb && \
+  apt-get update && \
+  apt-get install -y sbt && \
+  rm sbt-1.5.5.deb
 
-# Install Scala and sbt
-RUN apt-get update && apt-get install -y \
-    curl \
-    && curl -Lo sbt.deb https://github.com/sbt/sbt/releases/download/v1.8.0/sbt-1.8.0.deb \
-    && dpkg -i sbt.deb \
-    && apt-get install -y -f
+# Copy project files
+COPY project/build.properties project/build.properties
+COPY project/plugins.sbt project/plugins.sbt
+COPY build.sbt .
+COPY src ./src
 
-# Set the environment variable for SBT
-ENV SBT_OPTS="-Xmx2G"
-
-# Build the project
+# Fetch dependencies and compile
 RUN sbt clean compile
 
-# Stage 2: Runtime Stage
-FROM openjdk:17-slim AS runtime
+# Create fat jar
+RUN sbt assembly
+
+# Second stage for a smaller runtime image
+FROM openjdk:11-jre-slim
 
 # Set working directory
 WORKDIR /app
 
-# Copy the compiled project from the build stage
-COPY --from=build /app/target/scala-2.12 /app/target/scala-2.12
+# Copy the assembled jar from the builder stage
+COPY --from=builder /app/target/scala-2.12/CS-441-HW-3-assembly-0.1.0-SNAPSHOT.jar /app/app.jar
 
-# Expose the port that the application will run on
+# Create a directory for configuration and output
+RUN mkdir -p /app/output /app/config
+
+# Copy your configuration file from the correct path
+COPY src/main/resources/application.conf /app/config/application.conf
+
+# Expose the port your app runs on
 EXPOSE 8080
 
-# Command to run the application
-CMD ["java", "-cp", "/app/target/scala-2.12/*", "App.AkkaHttpServer"]
+# Set environment variables for configuration
+ENV CONFIG_FILE=/app/config/application.conf
+
+# Run the main class directly
+ENTRYPOINT ["java", "-Dconfig.file=${CONFIG_FILE}", "-cp", "/app/app.jar", "App.AkkaHttpServer"]
