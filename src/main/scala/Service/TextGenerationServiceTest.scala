@@ -1,6 +1,5 @@
 package Service
 
-import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.testkit.{ScalatestRouteTest, RouteTestTimeout}
 import org.mockito.Mockito._
 import org.scalatest.concurrent.ScalaFutures
@@ -16,15 +15,15 @@ class TextGenerationServiceTest extends AnyWordSpec with Matchers with ScalaFutu
   // Mocking the BedrockRuntimeClient
   val mockBedrockClient: BedrockRuntimeClient = mock[BedrockRuntimeClient]
 
-  // Sample config (mocked) - actual config can be loaded via application.conf
+  // Sample config (mocked)
   val config = new {
     val modelId: String = "amazon.titan-text-express-v1"
     val temperature: Float = 0.7f
     val maxLength: Int = 256
   }
 
+  // Creating the service instance with the mocked client
   val textGenerationService = new TextGenerationService(config) {
-    // Overriding the bedrockClient with the mock
     override val bedrockClient: BedrockRuntimeClient = mockBedrockClient
   }
 
@@ -34,7 +33,7 @@ class TextGenerationServiceTest extends AnyWordSpec with Matchers with ScalaFutu
       val request = GenerateTextRequest(prompt = "how cats express love?", maxLength = 256, temperature = 0.7f, modelId = "")
 
       val expectedResponse = GenerateTextResponse(
-        generatedText = "Cats are known for being independent and aloof, but they can also express love in their own unique way. Here are some ways cats show affection and love:\n\n1. Head Butting: Cats often use head butting as a form of affection.",
+        generatedText = "Cats express love by spending time with their owners, purring, rubbing against them, and grooming them. They also bring their owners dead animals as a sign of affection.",
         confidence = 0.7f,
         tokensUsed = 20,
         modelId = "amazon.titan-text-express-v1",

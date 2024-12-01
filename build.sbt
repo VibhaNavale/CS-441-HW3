@@ -48,6 +48,7 @@ lazy val root = (project in file("."))
       "org.scalatest" %% "scalatest" % "3.2.19" % Test,
       "org.scalatestplus" %% "scalatestplus-mockito" % "1.0.0-M2" % Test,
       "org.mockito" %% "mockito-scala" % "1.17.37" % Test,
+      "com.typesafe.akka" %% "akka-http-testkit" % "10.2.9" % Test,
 
       "org.slf4j" % "slf4j-api" % "2.0.12",
       "ch.qos.logback" % "logback-classic" % "1.5.6" excludeAll
