@@ -35,17 +35,15 @@ WORKDIR /app
 # Copy the assembled jar from the builder stage
 COPY --from=builder /app/target/scala-2.12/CS-441-HW-3-assembly-0.1.0-SNAPSHOT.jar /app/app.jar
 
-# Create a directory for configuration and output
-RUN mkdir -p /app/output /app/config
+# Copy the resources directory to maintain the original structure
+COPY --from=builder /app/src/main/resources /app/src/main/resources
 
-# Copy your configuration file from the correct path
-COPY src/main/resources/application.conf /app/config/application.conf
+# Create output directory
+RUN mkdir -p /app/output
 
 # Expose the port your app runs on
 EXPOSE 8080
 
-# Set environment variables for configuration
-ENV CONFIG_FILE=/app/config/application.conf
-
-# Run the main class directly
-ENTRYPOINT ["java", "-Dconfig.file=${CONFIG_FILE}", "-cp", "/app/app.jar", "App.AkkaHttpServer"]
+# Run the main class directly with config in its original path
+# Use -Dakka.http.server.default-host-connection-pool.max-connections=32 to prevent connection pool issues
+CMD ["java", "-Dconfig.file=/app/src/main/resources/application.conf", "-Dakka.http.server.default-host-connection-pool.max-connections=32", "-cp", "/app/app.jar", "App.AkkaHttpServer"]

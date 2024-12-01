@@ -118,11 +118,10 @@ object AkkaHttpServer {
     val bindingFuture = Http().newServerAt(host, port).bind(route)
 
     println(s"Server online at http://$host:$port/")
-    println("Press RETURN to stop...")
 
     try {
-      Await.result(bindingFuture, 10.seconds)
-      StdIn.readLine()
+      // Keep the JVM running
+      Await.result(system.whenTerminated, Duration.Inf)
     } finally {
       bindingFuture
         .flatMap(_.unbind())
