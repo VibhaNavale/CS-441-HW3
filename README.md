@@ -32,7 +32,7 @@ Project walkthrough:
 1) Clone the repository and navigate to the root directory.
 2) The root file is _src/main/scala/App/AkkaHttpServer.scala_
 3) Run `sbt clean update` and `sbt clean compile` from the terminal.
-4) Run `sbt "run"` to start the local server.
+4) Run `sbt run` to start the local server.
 5) Run `sbt test` to test.
 6) To create a fat jar, run the command `sbt clean assembly`
 7) The resulting jar file can be found at _target/scala-2.12/CS-441-HW-3-assembly-0.1.0-SNAPSHOT.jar_
@@ -54,7 +54,7 @@ Test the deployment:
 
 In this homework, the focus is on building a RESTful microservice that leverages a Large Language Model (LLM) for conversational responses. The microservice will be deployed in a cloud environment (AWS EC2) and will interface with both cloud-based and local LLM instances.
 
-**Mandatory Requirements (All Students):**\
+**Mandatory Requirements (All Students):**
 1. LLM Integration:
    - Use a REST framework (e.g., Akka HTTP, Play) to design a microservice that queries an LLM and returns responses. 
 2. Microservice Functionality:
@@ -64,7 +64,7 @@ In this homework, the focus is on building a RESTful microservice that leverages
    - Deploy the microservice on AWS EC2.
    - Use Postman or cURL to test the REST API.
 
-**Additional Requirements (Graduate Students Only):**\
+**Additional Requirements (Graduate Students Only):**
 1. Conversational Testing:
    - Develop automatic clients to test multi-turn conversations using predefined templates.
    - Analyze the influence of templates on conversation flow and include insights in your submission. 
