@@ -32,10 +32,13 @@ Project walkthrough:
 1) Clone the repository and navigate to the root directory.
 2) The root file is _src/main/scala/App/AkkaHttpServer.scala_
 3) Run `sbt clean update` and `sbt clean compile` from the terminal.
-4) Run `sbt run` to start the local server.
-5) Run `sbt test` to test.
-6) To create a fat jar, run the command `sbt clean assembly`
-7) The resulting jar file can be found at _target/scala-2.12/CS-441-HW-3-assembly-0.1.0-SNAPSHOT.jar_
+4) Run `sbt run` to start the local server using sbt.
+5) To run the application in a Docker container, follow these steps:
+   - Build the Docker Image using `docker build -t akka-http-server .`
+   - Run the Docker Container: After the image is built, run the application in a Docker container using `docker run -p 8080:8080 akka-http-server`
+6) Run `sbt test` to test.
+7) To create a fat jar, run the command `sbt clean assembly`
+8) The resulting jar file can be found at _target/scala-2.12/CS-441-HW-3-assembly-0.1.0-SNAPSHOT.jar_
 
 ---
 ### Deploying to AWS
