@@ -5,8 +5,7 @@
 
 Repo for Homework-3 for CS441 Fall2024: The Design and Deployment of a Conversational Agent using Large Language Models (LLMs)
 
-Project walkthrough:
-https://drive.google.com/drive/folders/1k1g9p4PxbQxJ-Q_-BBlBaJ2bRJ1SycNu?usp=sharing
+Project walkthrough: https://uic.zoom.us/rec/play/2mqX1utl5uSQH4WVArL8vl3qwZNzTmi8f-LDFY-EN6jEbiLB_hN8FkWSsj8DwV0Bwg8RswwHxa_yELU.i-YqmYUFXKYKHf_e
 
 ## Environment:
 **OS** : macOS (M3 Chip)\
